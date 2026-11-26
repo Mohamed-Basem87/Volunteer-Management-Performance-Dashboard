@@ -1,5 +1,7 @@
 # Database Tables — Dashboard Reference
 
+> The tables and enums below describe the illustrative schema used to generate the **synthetic / mock sample CSVs** in `data/`. They do not represent a real organization's operational database or real volunteer records.
+
 ## Enums
 
 | Enum | Values |
@@ -11,7 +13,7 @@
 | **TaskStatus** | `open`, `full`, `in_progress`, `completed`, `cancelled` |
 | **EducationalLevel** | `ثانوي` (High School), `بكالوريوس` (Bachelor), `لا يوجد` (None) |
 | **Governorate** | `القاهرة` (Cairo), `الجيزة` (Giza), `الإسكندرية` (Alexandria) |
-| **Area** | `الهرم`, `فيصل`, `الدقي`, `المهندسين`, `العجوزة` |
+| **Area** | `الهرم`, `فيصل`, `الدقي`, `المهندسين`, `العجوزة`, `مدينة نصر`, `الزمالك`, `أكتوبر` |
 
 ---
 

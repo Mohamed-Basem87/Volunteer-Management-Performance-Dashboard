@@ -1,6 +1,6 @@
 # Volunteer Management & Performance Analysis Dashboard
 
-**An interactive Power BI dashboard that turns raw volunteer records into decision-ready insights about applications, participation trends, engagement levels and operational performance for a nonprofit organization.**
+**An interactive Power BI dashboard built on a synthetic (mock) dataset that simulates volunteer records and explores applications, participation trends, engagement levels and operational performance for a nonprofit organization. No real volunteer personal data is included.**
 
 ![Power BI](https://img.shields.io/badge/Power%20BI-Desktop-F2C811?logo=powerbi&logoColor=black) ![DAX](https://img.shields.io/badge/Language-DAX-7B7FDC) ![Status](https://img.shields.io/badge/Status-Complete-3FB58F) ![License](https://img.shields.io/badge/License-MIT-lightgrey)
 
@@ -8,9 +8,9 @@
 
 ## Project Overview
 
-This project analyzes volunteer data for a nonprofit organization through a single-page Power BI report. It covers volunteer applications, geography, education, car ownership and logged volunteering hours, and exposes them through KPI cards, trend charts, rankings and slicers.
+This project analyzes a **synthetic / mock volunteer dataset created to simulate nonprofit operations** through a single-page Power BI report. It covers volunteer applications, geography, education, car ownership and logged volunteering hours, and exposes them through KPI cards, trend charts, rankings and slicers. The CSVs are sample data, not records from a real organization.
 
-The source `volunteers.csv` is cleaned in **Power Query** (header promotion, type casting, replacement of inconsistent boolean text, removal of unnecessary columns and date normalization), then loaded into a compact model with a DAX-generated `dcalendar` table and a `Key_Measures` table holding the report's measures. The complete 13-table backend schema is documented in [`docs/Database_Tables_Reference.md`](docs/Database_Tables_Reference.md).
+The source `volunteers.csv` is cleaned in **Power Query** (header promotion, type casting, replacement of inconsistent boolean text, removal of unnecessary columns and date normalization), then loaded into a compact model with a DAX-generated `dcalendar` table and a `Key_Measures` table holding the report's measures. The illustrative 12-table schema used to generate the sample CSVs is documented in [`docs/Database_Tables_Reference.md`](docs/Database_Tables_Reference.md).
 
 ---
 
@@ -79,7 +79,7 @@ volunteers table  ──  dcalendar (CALENDARAUTO)  ──  Key_Measures (DAX)
 ```
 
 - **`volunteers`** is the fact/grain table: one row per volunteer record (140 rows).
-- **`dcalendar`** is a DAX calculated table built with `CALENDARAUTO()` and helper columns for Year, Quarter, Month and Month Number. In the delivered report it is used as a disconnected date table for date labels and slicers — there is no active relationship in the PBIX.
+- **`dcalendar`** is a DAX calculated table built with `CALENDARAUTO()` and helper columns for Year, Quarter, Month and Month Number. An active many-to-one relationship links `volunteers[appliedAt]` to `dcalendar[Date]` and supports the monthly/yearly trend and slicers; Power BI also creates a hidden local date-table relationship for auto date/time.
 - **`Key_Measures`** is a calculated table that hosts the four DAX measures.
 - Power BI also generates hidden local date tables for auto date/time hierarchies.
 
@@ -113,7 +113,7 @@ ADDCOLUMNS(
 )
 ```
 
-### Source database (13 CSVs)
+### Source database (12 CSVs)
 
 The full entity-relationship reference — enums, primary/foreign keys, constraints and a relationship diagram covering users, volunteers, centers, places, rules, tasks, enrollments, sessions, photos and GPS logs — lives in [`docs/Database_Tables_Reference.md`](docs/Database_Tables_Reference.md).
 
@@ -150,11 +150,11 @@ The report has one page, **"Vounteer Overview"** (original spelling preserved fr
 
 ## Key Findings
 
-- **112 approved**, **19 pending**, **6 rejected** and **3 banned** out of 140 volunteer records — an **81.7% acceptance rate** across the 137 non-banned applications.
+- **112 approved**, **19 pending**, **6 rejected** and **3 banned** out of 140 sample records — an **81.8% approval rate** across the 137 non-banned applications.
 - **8,202.73 volunteering hours** logged in total; the top contributor, **Israa Wael Al‑Shenawi**, logged **149.61 hours**.
 - **February 2024** was the peak intake month with **19 new applications**.
 - **Al‑Dokki** was the most active area with **36 volunteers**, ahead of Faisal and Mohandeseen.
-- **50%** of volunteers hold a bachelor's degree and **77.14%** do not own a car — useful inputs for field-operation logistics.
+- Among the **112 approved volunteers**, **53 (47.32%)** hold a bachelor's degree and **86 (76.79%)** do not own a car. Across all **140 sample records**, the corresponding shares are **70 (50.00%)** and **108 (77.14%)**. The dashboard pies use the approved-volunteer scope.
 
 ---
 
